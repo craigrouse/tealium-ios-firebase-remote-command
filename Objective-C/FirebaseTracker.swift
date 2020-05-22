@@ -1,8 +1,9 @@
 //
 //  FirebaseTracker.swift
+//  TealiumFirebase
 //
-//  Created by Christina Sund on 7/11/19.
-//  Copyright © 2019 Christina. All rights reserved.
+//  Created by Christina S on 05/20/20.
+//  Copyright © 2019 Tealium. All rights reserved.
 //
 
 import Foundation
@@ -11,7 +12,7 @@ import FirebaseAnalytics
 
 @objc
 public protocol FirebaseTrackable {
-    func createAnalyticsConfig(_ configuration: [AnyHashable: Any])
+    func createAnalyticsConfig(_ configuration: [String: Any])
     func logEvent(_ name: String, _ params: [String: Any]?)
     func setScreenName(_ screenName: String, _ screenClass: String?)
     func setUserProperty(_ property: String, value: String)
@@ -23,18 +24,20 @@ public class FirebaseTracker: NSObject, FirebaseTrackable {
     
     public override init() { }
     
-    public func createAnalyticsConfig(_ configuration: [AnyHashable: Any]) {
-        if let sessionTimeoutSeconds = configuration[FirebaseKey.sessionTimeout] as? TimeInterval {
+    public func createAnalyticsConfig(_ configuration: [String: Any]) {
+        if let sessionTimeoutSeconds = configuration[.sessionTimeout] as? TimeInterval {
             Analytics.setSessionTimeoutInterval(sessionTimeoutSeconds)
         }
-        if let analyticsEnabled = configuration[FirebaseKey.analyticsEnabled] as? Bool {
+        if let analyticsEnabled = configuration[.analyticsEnabled] as? Bool {
             Analytics.setAnalyticsCollectionEnabled(analyticsEnabled)
         }
-        if let logLevel = configuration[FirebaseKey.logLevel] as? FirebaseLoggerLevel {
+        if let logLevel = configuration[.logLevel] as? FirebaseLoggerLevel {
             FirebaseConfiguration.shared.setLoggerLevel(logLevel)
         }
         if FirebaseApp.app() == nil {
-            FirebaseApp.configure()
+            DispatchQueue.main.async {
+                FirebaseApp.configure()
+            }
         }
     }
     

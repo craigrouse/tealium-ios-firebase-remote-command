@@ -2,8 +2,8 @@
 //  TealiumHelper.swift
 //  RemoteCommandModules
 //
-//  Created by Christina Sund on 6/18/19.
-//  Copyright © 2019 Christina. All rights reserved.
+//  Created by Christina S on 6/18/19.
+//  Copyright © 2019 Tealium. All rights reserved.
 //
 
 import Foundation
@@ -13,7 +13,7 @@ import TealiumFirebase
 enum TealiumConfiguration {
     static let account = "tealiummobile"
     static let profile = "firebase-tag"
-    static let environment = "dev"
+    static let environment = "qa"
 }
 
 class TealiumHelper {
@@ -28,6 +28,7 @@ class TealiumHelper {
 
     private init() {
         config.shouldUseRemotePublishSettings = false
+        config.batchingEnabled = false
         config.logLevel = .verbose
         tealium = Tealium(config: config,
             enableCompletion: { [weak self] _ in

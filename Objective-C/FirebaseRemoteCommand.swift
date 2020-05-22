@@ -1,36 +1,31 @@
 //
 //  FirebaseRemoteCommand.swift
-//  TealiumFirebase
+//  TealiumRemoteCommandObjcApp
 //
-//  Created by Christina S on 05/20/20.
-//  Copyright © 2017 Tealium. All rights reserved.
+//  Created by Christina S on 5/20/20.
+//  Copyright © 2020 Tealium. All rights reserved.
 //
 
 import Foundation
-import FirebaseCore
+import Firebase
 import FirebaseAnalytics
-#if COCOAPODS
-    import TealiumSwift
-#else
-    import TealiumCore
-    import TealiumTagManagement
-    import TealiumRemoteCommands
-    import TealiumDelegate
-#endif
+import TealiumIOS
 
-public class FirebaseRemoteCommand {
+@objc
+public class FirebaseRemoteCommand: NSObject {
 
     var firebaseTracker: FirebaseTrackable
 
+    @objc
     public init(firebaseTracker: FirebaseTrackable = FirebaseTracker()) {
         self.firebaseTracker = firebaseTracker
     }
 
-    public func remoteCommand() -> TealiumRemoteCommand {
-        return TealiumRemoteCommand(commandId: FirebaseConstants.commandId,
-                                    description: FirebaseConstants.description) { response in
-            let payload = response.payload()
-            guard let command = payload[.commandName] as? String else {
+    @objc
+    public func remoteCommand() -> TEALRemoteCommandResponseBlock {
+        return { response in
+            guard let payload = response?.requestPayload as? [String: Any],
+                let command = payload[.commandName] as? String else {
                 return
             }
             let commands = command.split(separator: FirebaseConstants.separator)
@@ -47,22 +42,23 @@ public class FirebaseRemoteCommand {
             let command = FirebaseConstants.Commands(rawValue: $0.lowercased())
             switch command {
             case .config:
-                var firebaseSessionTimeout: TimeInterval?
-                var firebaseSessionMinimumSeconds: TimeInterval?
-                var firebaseAnalyticsEnabled: Bool?
+                var configuration = [String: Any]()
                 if let sessionTimeout = payload[.sessionTimeout] as? String {
-                    firebaseSessionTimeout = TimeInterval(sessionTimeout)
+                    configuration[.sessionTimeout] = TimeInterval(sessionTimeout)
                 }
                 if let sessionMinimumSeconds = payload[.minSeconds] as? String {
-                    firebaseSessionMinimumSeconds = TimeInterval(sessionMinimumSeconds)
+                    configuration[.minSeconds] = TimeInterval(sessionMinimumSeconds)
                 }
                 if let analyticsEnabled = payload[.analyticsEnabled] as? String {
-                    firebaseAnalyticsEnabled = Bool(analyticsEnabled)
+                    configuration[.analyticsEnabled] = Bool(analyticsEnabled)
                 }
-                if let logLevel = payload[.logLevel] as? String {
-                    firebaseLogLevel = self.parseLogLevel(logLevel)
+                guard let logLevel = payload[.logLevel] as? String else {
+                    configuration[.logLevel] = firebaseLogLevel
+                    return self.firebaseTracker.createAnalyticsConfig(configuration)
                 }
-                self.firebaseTracker.createAnalyticsConfig(firebaseSessionTimeout, firebaseSessionMinimumSeconds, firebaseAnalyticsEnabled, firebaseLogLevel)
+                firebaseLogLevel = self.parseLogLevel(logLevel)
+                configuration[.logLevel] = firebaseLogLevel
+                self.firebaseTracker.createAnalyticsConfig(configuration)
             case .logEvent:
                 guard let name = payload[.eventName] as? String else {
                     return
@@ -81,7 +77,7 @@ public class FirebaseRemoteCommand {
                     }
                     normalizedParams[.items] = tempItems
                 }
-                normalizedParams += eventParameters.map(params)
+                normalizedParams.merge(eventParameters.map(params)) { _, new in new }
                 self.firebaseTracker.logEvent(eventName, normalizedParams)
             case .setScreenName:
                 guard let screenName = payload[.screenName] as? String else {
@@ -254,17 +250,6 @@ fileprivate extension Dictionary where Key == String, Value == String {
             if payload[dictionary.key] != nil {
                 result[dictionary.value] = payload[dictionary.key]
             }
-        }
-    }
-}
-
-fileprivate extension Dictionary where Key: ExpressibleByStringLiteral {
-    subscript(key: FirebaseConstants.Keys) -> Value? {
-        get {
-            return self[key.rawValue as! Key]
-        }
-        set {
-            self[key.rawValue as! Key] = newValue
         }
     }
 }

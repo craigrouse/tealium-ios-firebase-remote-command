@@ -2,8 +2,8 @@
 //  ProductViewController.swift
 //  TealiumFirebaseExample
 //
-//  Created by Christina Sund on 7/19/19.
-//  Copyright © 2019 Christina. All rights reserved.
+//  Created by Christina S on 7/19/19.
+//  Copyright © 2019 Tealium. All rights reserved.
 //
 
 import UIKit
@@ -96,5 +96,6 @@ extension ProductViewController {
     static let productVariant = "product_variant"
     static let productPrice = "product_price"
     static let productCategory = "product_category"
+    static let productBrand = "product_brand"
     static let screenClass = "screen_class"
 }

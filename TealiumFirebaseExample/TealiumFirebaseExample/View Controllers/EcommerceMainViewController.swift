@@ -2,8 +2,8 @@
 //  EcommerceMainViewController.swift
 //  TealiumFirebaseExample
 //
-//  Created by Christina Sund on 7/19/19.
-//  Copyright © 2019 Christina. All rights reserved.
+//  Created by Christina S on 7/19/19.
+//  Copyright © 2019 Tealium. All rights reserved.
 //
 
 import UIKit
@@ -50,15 +50,22 @@ class EcommerceMainViewController: UIViewController {
         case 2:
             hideAllViews(except: productView)
             TealiumHelper.trackView(title: "product", data: [ProductViewController.screenClass: "ProductViewController", ProductViewController.productId: ["PROD\(Int.random(in: 1...1000))"],
-                                                             ProductViewController.productPrice: [100],
-                                                             ProductViewController.productName: ["Fridge"],
-                                                             ProductViewController.productCategory: ["appliances"]])
+                ProductViewController.productPrice: [100],
+                ProductViewController.productName: ["Fridge"],
+                ProductViewController.productCategory: ["appliances"],
+                ProductViewController.productVariant: ["abc-123-xyz"],
+                ProductViewController.productBrand: ["acme"]])
         case 3:
             hideAllViews(except: checkoutView)
             TealiumHelper.trackView(title: "checkout", data: [CheckoutViewController.screenClass: "CheckoutViewController"])
         case 4:
             hideAllViews(except: orderView)
-            let orderData: [String: Any] = [OrderViewController.orderId: Int.random(in: 0...1000) * 1000, OrderViewController.orderCurrency: "USD", OrderViewController.orderTotal: Int.random(in: 0...1000), OrderViewController.screenClass: "OrderViewController"]
+            let orderData: [String: Any] = [OrderViewController.orderId: Int.random(in: 0...1000) * 1000, OrderViewController.orderCurrency: "USD", OrderViewController.orderTotal: Int.random(in: 0...1000), OrderViewController.screenClass: "OrderViewController", ProductViewController.productId: ["PROD\(Int.random(in: 1...1000))", "PROD\(Int.random(in: 1...1000))"],
+                ProductViewController.productPrice: [100, 500],
+                ProductViewController.productName: ["fridge", "television"],
+                ProductViewController.productCategory: ["appliances", "electronics"],
+                ProductViewController.productVariant: ["abc-123-xyz", "xyz-456-abc"],
+                ProductViewController.productBrand: ["acme", "brightblue"]]
             TealiumHelper.trackView(title: "order", data: orderData)
         default:
             hideAllViews(except: homeStackView)
