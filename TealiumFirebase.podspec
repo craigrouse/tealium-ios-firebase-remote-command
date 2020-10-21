@@ -3,7 +3,7 @@ Pod::Spec.new do |s|
     # ―――  Spec Metadata  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
     s.name         = "TealiumFirebase"
     s.module_name  = "TealiumFirebase"
-    s.version      = "1.1.1"
+    s.version      = "2.0.0"
     s.summary      = "Tealium Swift and Firebase integration"
     s.description  = <<-DESC
     Tealium's integration with Firebase for iOS.
@@ -21,7 +21,11 @@ Pod::Spec.new do |s|
     # ――― Platform Specifics ――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
     s.swift_version = "5.0"
     s.platform     = :ios, "10.0"
-    s.ios.deployment_target = "10.0"    
+    s.ios.deployment_target = "10.0"
+
+    # ――― Excluded Archs ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
+    s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
+    s.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }    
 
     # ――― Source Location ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
     s.source       = { :git => "https://github.com/Tealium/tealium-ios-firebase-remote-command.git", :tag => "#{s.version}" }
@@ -31,10 +35,9 @@ Pod::Spec.new do |s|
 
     # ――― Dependencies ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
     s.static_framework = true
-    s.ios.dependency 'tealium-swift/Core', '~> 1.9'
-    s.ios.dependency 'tealium-swift/TealiumRemoteCommands', '~> 1.9'
-    s.ios.dependency 'tealium-swift/TealiumDelegate', '~> 1.9'
-    s.ios.dependency 'tealium-swift/TealiumTagManagement', '~> 1.9'
-    s.dependency 'Firebase', '~> 6.2'
+    s.ios.dependency 'tealium-swift/Core', '~> 2.1'
+    s.ios.dependency 'tealium-swift/RemoteCommands', '~> 2.1'
+    s.ios.dependency 'tealium-swift/TagManagement', '~> 2.1'
+    s.dependency 'Firebase', '~> 6.3'
     s.dependency 'FirebaseAnalytics', '~> 6.6'
 end
