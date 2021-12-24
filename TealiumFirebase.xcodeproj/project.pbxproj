@@ -46,7 +46,6 @@
 		D73C674D2775DC810094C264 /* FirebaseCoreDiagnostics.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = D73C67432775DC810094C264 /* FirebaseCoreDiagnostics.xcframework */; };
 		D73C674E2775DC810094C264 /* nanopb.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = D73C67442775DC810094C264 /* nanopb.xcframework */; };
 		D73C674F2775DC810094C264 /* FirebaseCore.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = D73C67452775DC810094C264 /* FirebaseCore.xcframework */; };
-		D73C67522775DE810094C264 /* Firebase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D73C67512775DE810094C264 /* Firebase.framework */; };
 		D73C67542775DE8A0094C264 /* FirebaseAnalytics.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = D73C67532775DE8A0094C264 /* FirebaseAnalytics.xcframework */; };
 /* End PBXBuildFile section */
 
@@ -141,7 +140,6 @@
 				D73C674C2775DC810094C264 /* GoogleUtilities.xcframework in Frameworks */,
 				D73C67542775DE8A0094C264 /* FirebaseAnalytics.xcframework in Frameworks */,
 				CF2F9EC3264EF47E00DB792C /* TealiumRemoteCommands.xcframework in Frameworks */,
-				D73C67522775DE810094C264 /* Firebase.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -511,7 +509,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -547,7 +545,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
