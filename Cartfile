@@ -1,2 +1,2 @@
-binary "teal.json"
+binary "https://raw.githubusercontent.com/craigrouse/tealium-ios-firebase-remote-command/master/teal.json"
 binary "https://dl.google.com/dl/firebase/ios/carthage/FirebaseAnalyticsBinary.json" ~> 8.0
